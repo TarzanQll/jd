@@ -1,0 +1,7 @@
+type nOfVehiclesAtEachDepot nOfCustomers nOfDepots
+2 20 100 1
+duration capacity
+310 500
+??id ??x ??y serviceTime SizeDimension .. .. .. ..
+  1 -99 -97 0   6 1 2 1 2
+  2 -59  50 0  72 1 2 1 2
