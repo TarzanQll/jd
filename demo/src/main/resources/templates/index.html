@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
+    <title>供应链算法简易demo</title>
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.1&amp;key=43ccbd01289e7a8bf318aa9d9b1c219a"></script>
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+    <style>
+        .xuanfu{
+            left: 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+        }
+    </style>
+    <script language="javascript">
+        function AddElement(mytype){
+            var mytype,TemO=document.getElementById("addinput");
+            var newInput1 = document.createElement("input");
+            newInput1.type=mytype;
+            newInput1.name="input1";
+            var newInput2 = document.createElement("input");
+            newInput2.type=mytype;
+            newInput2.name="input2";
+            TemO.appendChild(newInput1);
+            TemO.appendChild(newInput2);
+            var newline= document.createElement("br");
+            TemO.appendChild(newline);
+        }
+    </script>
+</head>
+<body>
+
+<div class="xuanfu">供应链算法简易demo</div>
+<!--<div id="container" style="width: 1000px;height:400px"></div>-->
+<div id="container" class="panel-heading text-center"></div>
+<div id="tip" style="width: 15%;height:500px">站点选择
+    <form id="iform" th:action="@{/compute}" th:method="get">
+        <table border="0">
+            <tr>
+                <td></td>
+                <td></td>
+                <td>经度</td>
+                <td>纬度</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>起点</td>
+                <td><input type="text" name="beginlng" value="121.20" style="width:60px;"/></td>
+                <td><input type="text" name="beginlat" value="31.28" style="width:60px;"/></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>终点</td>
+                <td><input type="text" name="endlng" value="121.61" style="width:60px;"/></td>
+                <td><input type="text" name="endlat" value="31.29" style="width:60px;"/></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>站点1</td>
+                <td><input type="text" name="stonelng" value="121.40" style="width:60px;"/></td>
+                <td><input type="text" name="stonelat" value="30.98" style="width:60px;"/></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>站点2</td>
+                <td><input type="text" name="sttwolng" value="121.62" style="width:60px;"/></td>
+                <td><input type="text" name="sttwolat" value="31.20" style="width:60px;"/></td>
+            </tr>
+            <tr id="addinput">
+            </tr>
+            <tr>
+                <td><input name="" type="button" value="+" onClick="AddElement('text')" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td><input type="submit" value="生成路线"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script th:inline="javascript">
+    //<![CDATA[
+    var map, route, marker;
+    //基本地图加载
+    map = new AMap.Map("container", {
+        resizeEnable: true
+    });
+    //绘制初始路径
+    var path = [];
+//    path.push([121.20, 31.28]);
+//    path.push([121.40, 30.98]);
+//    path.push([121.62, 31.20]);
+//    path.push([121.61, 31.29]);
+//    alert(path);
+//    alert([[${stations}]]);
+//    console.log([[${stations}]]);
+    [[${stations}]].forEach(function (t) {
+        path.push(t);
+    })
+    map.plugin("AMap.DragRoute", function() {
+        route = new AMap.DragRoute(map, path, AMap.DrivingPolicy.LEAST_FEE); //构造拖拽导航类
+        route.search(); //查询导航路径并开启拖拽导航
+    });
+    //]]>
+</script>
+</body>
+</html>
